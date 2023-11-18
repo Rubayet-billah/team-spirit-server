@@ -10,6 +10,15 @@ const UserService = {
     }
   },
 
+  async getUserById(userId) {
+    try {
+      const user = await User.findById(userId);
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
   async createUser(userData) {
     try {
       const newUser = await User.create(userData);
@@ -19,7 +28,27 @@ const UserService = {
     }
   },
 
-  // Implement other service methods getUserById, updateUser, deleteUser, etc.
+  async updateUser(userId, updatedUserData) {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        updatedUserData,
+        { new: true }
+      );
+      return updatedUser;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  async deleteUser(userId) {
+    try {
+      const deletedUser = await User.findByIdAndDelete(userId);
+      return deletedUser;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };
 
 module.exports = UserService;
