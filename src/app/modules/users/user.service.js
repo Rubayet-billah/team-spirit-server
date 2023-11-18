@@ -1,9 +1,9 @@
-const { find, create } = require("./user.model");
+const User = require("./user.model");
 
 const UserService = {
   async getAllUsers() {
     try {
-      const users = await find();
+      const users = await User.find();
       return users;
     } catch (error) {
       throw new Error(error.message);
@@ -12,7 +12,7 @@ const UserService = {
 
   async createUser(userData) {
     try {
-      const newUser = await create(userData);
+      const newUser = await User.create(userData);
       return newUser;
     } catch (error) {
       throw new Error(error.message);

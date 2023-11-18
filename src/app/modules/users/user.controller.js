@@ -8,7 +8,6 @@ const UserController = {
     try {
       const users = await _getAllUsers();
       res.json(users);
-      res.json("hi there");
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
