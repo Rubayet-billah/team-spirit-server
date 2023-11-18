@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
 
-// Define the User schema
 const userSchema = new mongoose.Schema({
-  // Define user schema fields
-  name: String,
+  id: Number,
+  first_name: String,
+  last_name: String,
   email: String,
-  // Add other fields as needed
+  gender: String,
+  avatar: String,
+  domain: String,
+  available: Boolean,
 });
 
 // Create the User model

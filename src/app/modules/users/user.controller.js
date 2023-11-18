@@ -1,12 +1,9 @@
-const {
-  getAllUsers: _getAllUsers,
-  createUser: _createUser,
-} = require("./user.service");
+const { getAllUsers, createUser } = require("./user.service");
 
 const UserController = {
   async getAllUsers(req, res) {
     try {
-      const users = await _getAllUsers();
+      const users = await getAllUsers();
       res.json(users);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -15,7 +12,7 @@ const UserController = {
 
   async createUser(req, res) {
     try {
-      const newUser = await _createUser(req.body);
+      const newUser = await createUser(req.body);
       res.status(201).json(newUser);
     } catch (error) {
       res.status(400).json({ message: error.message });
