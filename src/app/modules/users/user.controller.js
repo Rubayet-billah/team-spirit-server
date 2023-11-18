@@ -9,7 +9,7 @@ const {
 const UserController = {
   async getAllUsers(req, res) {
     try {
-      const users = await getAllUsers();
+      const users = await getAllUsers(req.query);
       res.json(users);
     } catch (error) {
       res.status(500).json({ message: error.message });
