@@ -1,3 +1,4 @@
+const helperFunctions = require("../../../helpers/helperFunctions");
 const User = require("./user.model");
 
 const UserService = {
@@ -7,15 +8,15 @@ const UserService = {
       let sort = {};
       let search = {};
 
-      // Implement filtering by domain, gender, and availability
+      // Implement filtering by domain, gender, and available
       if (queryParams.domain) {
         filter.domain = queryParams.domain;
       }
       if (queryParams.gender) {
         filter.gender = queryParams.gender;
       }
-      if (queryParams.availability !== undefined) {
-        filter.availability = queryParams.availability;
+      if (queryParams.available !== undefined) {
+        filter.available = queryParams.available;
       }
 
       // Implement sorting by specific fields (e.g., name, email)
@@ -27,8 +28,9 @@ const UserService = {
       if (queryParams.search) {
         search = {
           $or: [
-            { name: { $regex: queryParams.search, $options: "i" } },
-            // Add other fields for searching if needed
+            { first_name: { $regex: queryParams.search, $options: "i" } },
+            { last_name: { $regex: queryParams.search, $options: "i" } },
+            { domain: { $regex: queryParams.search, $options: "i" } },
           ],
         };
       }
@@ -51,8 +53,9 @@ const UserService = {
 
   async createUser(userData) {
     try {
+      const newUserId = await helperFunctions.generateUserId();
+      userData.id = newUserId;
       const newUser = await User.create(userData);
-      // const newUser = await User.insertMany(userData);
       return newUser;
     } catch (error) {
       throw new Error(error.message);

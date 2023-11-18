@@ -1,5 +1,5 @@
 // helpers.js
-const User = require("./user.model");
+const User = require("../app/modules/users/user.model");
 
 const generateUserId = async () => {
   try {
