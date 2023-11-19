@@ -3,6 +3,7 @@ const User = require("./user.model");
 
 const UserService = {
   async getAllUsers(queryParams) {
+    console.log(queryParams);
     try {
       const filter = helperFunctions.applyFilter(queryParams);
       const search = helperFunctions.applySearch(queryParams);

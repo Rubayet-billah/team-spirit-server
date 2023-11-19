@@ -36,7 +36,6 @@ const applyFilter = (queryParams) => {
   if (queryParams.available !== undefined) {
     filter.available = queryParams.available;
   }
-
   return filter;
 };
 
@@ -48,7 +47,6 @@ const applySearch = (queryParams) => {
     search.$or = [
       { first_name: { $regex: queryParams.search, $options: "i" } },
       { last_name: { $regex: queryParams.search, $options: "i" } },
-      { domain: { $regex: queryParams.search, $options: "i" } },
     ];
   }
 
