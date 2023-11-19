@@ -1,6 +1,7 @@
 // helpers.js
 const User = require("../app/modules/users/user.model");
 
+// Helper function for generating new user id
 const generateUserId = async () => {
   try {
     // Fetch the last user from the database based on the 'id' field
@@ -22,8 +23,64 @@ const generateUserId = async () => {
   }
 };
 
+// Helper function for filtering users
+const applyFilter = (queryParams) => {
+  const filter = {};
+
+  if (queryParams.domain) {
+    filter.domain = queryParams.domain;
+  }
+  if (queryParams.gender) {
+    filter.gender = queryParams.gender;
+  }
+  if (queryParams.available !== undefined) {
+    filter.available = queryParams.available;
+  }
+
+  return filter;
+};
+
+// Helper function for searching users
+const applySearch = (queryParams) => {
+  const search = {};
+
+  if (queryParams.search) {
+    search.$or = [
+      { first_name: { $regex: queryParams.search, $options: "i" } },
+      { last_name: { $regex: queryParams.search, $options: "i" } },
+      { domain: { $regex: queryParams.search, $options: "i" } },
+    ];
+  }
+
+  return search;
+};
+
+// Helper function for sorting users
+const applySort = (queryParams) => {
+  const sort = {};
+
+  if (queryParams.sortBy) {
+    sort[queryParams.sortBy] = queryParams.sortOrder === "desc" ? -1 : 1;
+  }
+
+  return sort;
+};
+
+// Helper function for pagination
+const applyPagination = (queryParams) => {
+  const page = parseInt(queryParams.page) || 1;
+  const limit = parseInt(queryParams.limit) || 50;
+  const skip = (page - 1) * limit;
+
+  return { skip, limit };
+};
+
 const helperFunctions = {
   generateUserId,
+  applyFilter,
+  applySearch,
+  applySort,
+  applyPagination,
 };
 
 module.exports = helperFunctions;

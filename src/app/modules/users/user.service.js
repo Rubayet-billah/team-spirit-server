@@ -4,39 +4,21 @@ const User = require("./user.model");
 const UserService = {
   async getAllUsers(queryParams) {
     try {
-      let filter = {};
-      let sort = {};
-      let search = {};
+      const filter = helperFunctions.applyFilter(queryParams);
+      const search = helperFunctions.applySearch(queryParams);
+      const sort = helperFunctions.applySort(queryParams);
+      const pagination = helperFunctions.applyPagination(queryParams);
 
-      // Implement filtering by domain, gender, and available
-      if (queryParams.domain) {
-        filter.domain = queryParams.domain;
-      }
-      if (queryParams.gender) {
-        filter.gender = queryParams.gender;
-      }
-      if (queryParams.available !== undefined) {
-        filter.available = queryParams.available;
-      }
+      const users = await User.find({ ...filter, ...search })
+        .sort(sort)
+        .skip(pagination.skip)
+        .limit(pagination.limit);
 
-      // Implement sorting by specific fields (e.g., name, email)
-      if (queryParams.sortBy) {
-        sort[queryParams.sortBy] = queryParams.sortOrder === "desc" ? -1 : 1;
-      }
+      const dataCount = await User.find({ ...filter, ...search })
+        .sort(sort)
+        .countDocuments();
 
-      // Implement searching by name or any other field
-      if (queryParams.search) {
-        search = {
-          $or: [
-            { first_name: { $regex: queryParams.search, $options: "i" } },
-            { last_name: { $regex: queryParams.search, $options: "i" } },
-            { domain: { $regex: queryParams.search, $options: "i" } },
-          ],
-        };
-      }
-
-      const users = await User.find({ ...filter, ...search }).sort(sort);
-      return users;
+      return { count: dataCount, users };
     } catch (error) {
       throw new Error(error.message);
     }
