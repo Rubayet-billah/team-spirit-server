@@ -61,7 +61,7 @@ const UserService = {
 
   async deleteUser(userId) {
     try {
-      const deletedUser = await User.findByIdAndDelete(userId);
+      const deletedUser = await User.findOneAndDelete({ id: userId });
       return deletedUser;
     } catch (error) {
       throw new Error(error.message);
