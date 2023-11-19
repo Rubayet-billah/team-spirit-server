@@ -3,7 +3,6 @@ const User = require("./user.model");
 
 const UserService = {
   async getAllUsers(queryParams) {
-    console.log(queryParams);
     try {
       const filter = helperFunctions.applyFilter(queryParams);
       const search = helperFunctions.applySearch(queryParams);
@@ -19,7 +18,12 @@ const UserService = {
         .sort(sort)
         .countDocuments();
 
-      return { count: dataCount, users };
+      return {
+        count: dataCount,
+        limit: pagination.limit,
+        page: pagination.page,
+        users,
+      };
     } catch (error) {
       throw new Error(error.message);
     }

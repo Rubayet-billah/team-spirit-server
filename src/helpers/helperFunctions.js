@@ -70,7 +70,7 @@ const applyPagination = (queryParams) => {
   const limit = parseInt(queryParams.limit) || 50;
   const skip = (page - 1) * limit;
 
-  return { skip, limit };
+  return { skip, limit, page };
 };
 
 const helperFunctions = {
