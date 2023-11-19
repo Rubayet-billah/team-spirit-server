@@ -67,6 +67,19 @@ const UserService = {
       throw new Error(error.message);
     }
   },
+
+  async getAllDomains() {
+    try {
+      const domains = await User.find({}, { domain: true });
+
+      const uniqueDomains = Array.from(
+        new Set(domains.map((item) => item.domain))
+      );
+      return { domains: uniqueDomains };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };
 
 module.exports = UserService;

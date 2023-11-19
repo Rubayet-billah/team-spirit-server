@@ -4,6 +4,7 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  getAllDomains,
 } = require("./user.service");
 
 const UserController = {
@@ -59,6 +60,14 @@ const UserController = {
         return res.status(404).json({ message: "User not found" });
       }
       res.json({ message: "User deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  async getAllDomains(req, res) {
+    try {
+      const domains = await getAllDomains();
+      res.json(domains);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
