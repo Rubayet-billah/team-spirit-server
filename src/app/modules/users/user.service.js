@@ -26,7 +26,7 @@ const UserService = {
 
   async getUserById(userId) {
     try {
-      const user = await User.findById(userId);
+      const user = await User.findOne({ id: userId });
       return user;
     } catch (error) {
       throw new Error(error.message);
@@ -46,10 +46,12 @@ const UserService = {
 
   async updateUser(userId, updatedUserData) {
     try {
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
+      const updatedUser = await User.findOneAndUpdate(
+        { id: userId },
         updatedUserData,
-        { new: true }
+        {
+          new: true,
+        }
       );
       return updatedUser;
     } catch (error) {
